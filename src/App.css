@@ -1,0 +1,405 @@
+/* ========= Global ========= */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  background-color: #f8f9fb;
+  color: #1f2937;
+}
+
+.app-container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* ========= Header ========= */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.header a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.cart {
+  margin-right: 20px;
+  font-size: 18px;
+  position: relative;
+}
+
+.cart span {
+  background-color: #ef4444;
+  color: white;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 20px;
+  margin-left: 6px;
+}
+
+.header button {
+  background-color: #111827;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.header button:hover {
+  background-color: #374151;
+}
+
+/* ========= Tabs ========= */
+.tabs-container {
+  display: flex;
+  overflow-x: auto;
+  list-style: none;
+  padding: 15px 0;
+  margin: 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.tab {
+  margin-right: 30px;
+  cursor: pointer;
+  padding-bottom: 6px;
+  font-weight: 500;
+  color: #6b7280;
+  transition: 0.2s ease;
+}
+
+.tab:hover {
+  color: #111827;
+}
+
+.active {
+  color: #ef4444;
+  border-bottom: 2px solid #ef4444;
+}
+
+/* ========= Dish Cards ========= */
+.dishes-container {
+  padding-top: 20px;
+}
+
+.dish-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+  transition: 0.2s ease;
+}
+
+.dish-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.dish-info {
+  width: 70%;
+}
+
+.dish-info h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.price {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.calories {
+  font-size: 14px;
+  color: #f59e0b;
+  margin-bottom: 10px;
+}
+
+.custom {
+  font-size: 13px;
+  color: #2563eb;
+  margin-top: 6px;
+}
+
+.not-available {
+  color: #ef4444;
+  font-weight: 500;
+}
+
+/* ========= Dish Image ========= */
+.dish-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+/* ========= Buttons ========= */
+button {
+  cursor: pointer;
+}
+
+.dish-info button {
+  background-color: #10b981;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.dish-info button:hover {
+  background-color: #059669;
+}
+
+/* ========= Counter (Cart Page) ========= */
+.counter {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.counter button {
+  background-color: #111827;
+  color: white;
+  border: none;
+  padding: 5px 12px;
+  font-size: 16px;
+  border-radius: 4px;
+}
+
+.counter span {
+  margin: 0 12px;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+/* ========= Remove Buttons ========= */
+.dish-info > button:last-child {
+  background-color: #ef4444;
+  margin-top: 10px;
+}
+
+.dish-info > button:last-child:hover {
+  background-color: #dc2626;
+}
+
+/* ========= Remove All Button ========= */
+.app-container > button {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  margin: 15px 0;
+  transition: 0.2s ease;
+}
+
+.app-container > button:hover {
+  background-color: #dc2626;
+}
+
+/* ========= Cart Page ========= */
+.cart-container {
+  margin-top: 20px;
+}
+
+.cart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+}
+
+.cart-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.cart-details {
+  flex: 1;
+}
+
+.remove-btn {
+  background-color: transparent;
+  border: none;
+  color: #ef4444;
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+.cart-total {
+  margin-top: 30px;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+}
+
+.checkout-btn {
+  background-color: #111827;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  transition: 0.2s ease;
+}
+
+.checkout-btn:hover {
+  background-color: #374151;
+}
+
+/* ========= Empty Cart ========= */
+.empty-cart {
+  text-align: center;
+  margin-top: 80px;
+}
+
+.empty-cart img {
+  width: 280px;
+}
+
+.empty-cart h2 {
+  margin-top: 20px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.browse-btn {
+  margin-top: 20px;
+  background-color: #111827;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 6px;
+  border: none;
+}
+
+/* ========= Login Page ========= */
+.login-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f3f4f6;
+}
+
+.login-form {
+  width: 350px;
+  background-color: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+.login-title {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.login-input {
+  padding: 10px 14px;
+  margin-bottom: 15px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.login-input:focus {
+  outline: none;
+  border-color: #111827;
+}
+
+.login-button {
+  background-color: #111827;
+  color: white;
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.login-button:hover {
+  background-color: #374151;
+}
+
+.login-error {
+  margin-top: 10px;
+  color: #ef4444;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* ========= Mobile Responsive ========= */
+@media (max-width: 768px) {
+  .dish-card,
+  .cart-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dish-info,
+  .cart-details {
+    width: 100%;
+  }
+
+  .dish-image,
+  .cart-image {
+    width: 100%;
+    height: 200px;
+    margin-top: 15px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header div {
+    margin-top: 10px;
+  }
+}
