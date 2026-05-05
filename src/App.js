@@ -12,30 +12,27 @@ class App extends Component {
     cartList: [],
   }
 
-  addCartItem = item => {
-    this.setState(prevState => {
-      const existingItem = prevState.cartList.find(
-        each => each.dish_id === item.dish_id,
-      )
+  addCartItem = dish => {
+    const {cartList} = this.state
+    const existing = cartList.find(i => i.dish_id === dish.dish_id)
 
-      if (existingItem) {
-        return {
-          cartList: prevState.cartList.map(each =>
-            each.dish_id === item.dish_id
-              ? {...each, quantity: each.quantity + 1}
-              : each,
-          ),
-        }
-      }
-
-      return {cartList: [...prevState.cartList, {...item, quantity: 1}]}
-    })
+    if (existing) {
+      this.setState({
+        cartList: cartList.map(i =>
+          i.dish_id === dish.dish_id ? {...i, quantity: i.quantity + 1} : i,
+        ),
+      })
+    } else {
+      this.setState({
+        cartList: [...cartList, {...dish, quantity: 1}],
+      })
+    }
   }
 
   incrementCartItemQuantity = id => {
     this.setState(prev => ({
-      cartList: prev.cartList.map(each =>
-        each.dish_id === id ? {...each, quantity: each.quantity + 1} : each,
+      cartList: prev.cartList.map(i =>
+        i.dish_id === id ? {...i, quantity: i.quantity + 1} : i,
       ),
     }))
   }
@@ -43,16 +40,8 @@ class App extends Component {
   decrementCartItemQuantity = id => {
     this.setState(prev => ({
       cartList: prev.cartList
-        .map(each =>
-          each.dish_id === id ? {...each, quantity: each.quantity - 1} : each,
-        )
-        .filter(each => each.quantity > 0),
-    }))
-  }
-
-  removeCartItem = id => {
-    this.setState(prev => ({
-      cartList: prev.cartList.filter(each => each.dish_id !== id),
+        .map(i => (i.dish_id === id ? {...i, quantity: i.quantity - 1} : i))
+        .filter(i => i.quantity > 0),
     }))
   }
 
@@ -60,33 +49,41 @@ class App extends Component {
     this.setState({cartList: []})
   }
 
+  removeCartItem = id => {
+    this.setState(prev => ({
+      cartList: prev.cartList.filter(i => i.dish_id !== id),
+    }))
+  }
+
   render() {
     const {cartList} = this.state
-    const jwtToken = Cookies.get('jwt_token')
+    const token = Cookies.get('jwt_token')
 
     return (
       <CartContext.Provider
         value={{
           cartList,
           addCartItem: this.addCartItem,
-          removeCartItem: this.removeCartItem,
           incrementCartItemQuantity: this.incrementCartItemQuantity,
           decrementCartItemQuantity: this.decrementCartItemQuantity,
           removeAllCartItems: this.removeAllCartItems,
+          removeCartItem: this.removeCartItem,
         }}
       >
         <BrowserRouter>
           <Switch>
             <Route exact path="/login" component={Login} />
+
             <Route
               exact
               path="/"
-              render={() => (jwtToken ? <Home /> : <Redirect to="/login" />)}
+              render={() => (token ? <Home /> : <Redirect to="/login" />)}
             />
+
             <Route
               exact
               path="/cart"
-              render={() => (jwtToken ? <Cart /> : <Redirect to="/login" />)}
+              render={() => (token ? <Cart /> : <Redirect to="/login" />)}
             />
           </Switch>
         </BrowserRouter>
