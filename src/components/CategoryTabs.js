@@ -1,25 +1,26 @@
-import {Component} from 'react'
+const CategoryTabs = props => {
+  const {menuList, changeCategory, activeCategory} = props
 
-class CategoryTabs extends Component {
-  render() {
-    const {menuList, activeCategory, changeCategory} = this.props
+  return (
+    <div>
+      {menuList.map(each => {
+        const isActive = each.menu_category === activeCategory
 
-    return (
-      <ul className="tabs-container">
-        {menuList.map(each => (
-          <li
+        return (
+          <button
             key={each.menu_category}
-            className={
-              activeCategory === each.menu_category ? 'tab active' : 'tab'
-            }
+            type="button"
             onClick={() => changeCategory(each.menu_category)}
+            style={{
+              fontWeight: isActive ? 'bold' : 'normal',
+            }}
           >
             {each.menu_category}
-          </li>
-        ))}
-      </ul>
-    )
-  }
+          </button>
+        )
+      })}
+    </div>
+  )
 }
 
 export default CategoryTabs
