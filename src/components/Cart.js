@@ -9,104 +9,76 @@ const Cart = () => (
         removeAllCartItems,
         incrementCartItemQuantity,
         decrementCartItemQuantity,
-        removeCartItem,
       } = value
 
       const totalPrice = cartList.reduce(
-        (acc, item) => acc + item.dish_price * item.quantity,
+        (acc, item) => acc + item.dishPrice * item.quantity,
         0,
       )
 
-      const renderEmptyView = () => (
-        <div className="empty-cart">
+      const renderEmptyCart = () => (
+        <div>
           <img
             src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-empty-cart-img.png"
             alt="empty cart"
           />
-          <h2>Your Cart is Empty</h2>
+          <h1>Your Cart is Empty</h1>
+
           <Link to="/">
-            <button className="browse-btn" type="button">
-              Browse Menu
-            </button>
+            <button type="button">Browse Menu</button>
           </Link>
         </div>
       )
 
       const renderCartItems = () => (
-        <>
-          <header className="header">
-            <Link to="/" className="logo-link">
-              <h2>UNI Resto Cafe</h2>
+        <div>
+          <header>
+            <Link to="/">
+              <h1>UNI Resto Cafe</h1>
             </Link>
           </header>
 
-          <div className="cart-container">
-            <div className="cart-header">
-              <h2>My Cart</h2>
+          <h1>My Cart</h1>
+
+          <button type="button" onClick={removeAllCartItems}>
+            Remove All
+          </button>
+
+          {cartList.map(item => (
+            <div key={item.dishId}>
+              <img src={item.dishImage} alt={item.dishName} />
+
+              <h1>{item.dishName}</h1>
+
+              <p>SAR {item.dishPrice * item.quantity}</p>
+
               <button
                 type="button"
-                className="remove-all-btn"
-                onClick={removeAllCartItems}
+                onClick={() => decrementCartItemQuantity(item.dishId)}
               >
-                Remove All
+                -
+              </button>
+
+              <p>{item.quantity}</p>
+
+              <button
+                type="button"
+                onClick={() => incrementCartItemQuantity(item.dishId)}
+              >
+                +
               </button>
             </div>
+          ))}
 
-            {cartList.map(item => (
-              <div key={item.dish_id} className="cart-item">
-                <img
-                  src={item.dish_image}
-                  alt={item.dish_name}
-                  className="cart-image"
-                />
+          <h1>Total: SAR {totalPrice}</h1>
 
-                <div className="cart-details">
-                  <h3>{item.dish_name}</h3>
-
-                  <p className="price">SAR {item.dish_price * item.quantity}</p>
-
-                  <div className="counter">
-                    <button
-                      type="button"
-                      onClick={() => decrementCartItemQuantity(item.dish_id)}
-                    >
-                      -
-                    </button>
-
-                    <span>{item.quantity}</span>
-
-                    <button
-                      type="button"
-                      onClick={() => incrementCartItemQuantity(item.dish_id)}
-                    >
-                      +
-                    </button>
-                  </div>
-
-                  <button
-                    type="button"
-                    className="remove-btn"
-                    onClick={() => removeCartItem(item.dish_id)}
-                  >
-                    Remove
-                  </button>
-                </div>
-              </div>
-            ))}
-
-            <div className="cart-total">
-              <h3>Total: SAR {totalPrice}</h3>
-              <button className="checkout-btn" type="button">
-                Checkout
-              </button>
-            </div>
-          </div>
-        </>
+          <button type="button">Checkout</button>
+        </div>
       )
 
       return (
-        <div className="app-container">
-          {cartList.length === 0 ? renderEmptyView() : renderCartItems()}
+        <div>
+          {cartList.length === 0 ? renderEmptyCart() : renderCartItems()}
         </div>
       )
     }}
