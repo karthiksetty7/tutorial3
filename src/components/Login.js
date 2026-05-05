@@ -8,16 +8,24 @@ class Login extends Component {
     errorMsg: '',
   }
 
-  onSubmit = e => {
+  onSubmit = async e => {
     e.preventDefault()
+
     const {username, password} = this.state
     const {history} = this.props
 
-    if (username === 'rahul' && password === 'rahul@2021') {
-      Cookies.set('jwt_token', 'dummy_token', {expires: 1})
+    const response = await fetch('https://apis.ccbp.in/login', {
+      method: 'POST',
+      body: JSON.stringify({username, password}),
+    })
+
+    const data = await response.json()
+
+    if (response.ok) {
+      Cookies.set('jwt_token', data.jwt_token, {expires: 30})
       history.replace('/')
     } else {
-      this.setState({errorMsg: 'Invalid username or password'})
+      this.setState({errorMsg: data.error_msg})
     }
   }
 
@@ -25,30 +33,25 @@ class Login extends Component {
     const {errorMsg} = this.state
 
     return (
-      <div className="login-container">
-        <form className="login-form" onSubmit={this.onSubmit}>
-          <h2 className="login-title">Login</h2>
+      <form onSubmit={this.onSubmit}>
+        <label htmlFor="username">USERNAME</label>
+        <input
+          id="username"
+          type="text"
+          onChange={e => this.setState({username: e.target.value})}
+        />
 
-          <input
-            className="login-input"
-            placeholder="Username"
-            onChange={e => this.setState({username: e.target.value})}
-          />
+        <label htmlFor="password">PASSWORD</label>
+        <input
+          id="password"
+          type="password"
+          onChange={e => this.setState({password: e.target.value})}
+        />
 
-          <input
-            type="password"
-            className="login-input"
-            placeholder="Password"
-            onChange={e => this.setState({password: e.target.value})}
-          />
+        <button type="submit">Login</button>
 
-          <button className="login-button" type="submit">
-            Login
-          </button>
-
-          {errorMsg && <p className="login-error">{errorMsg}</p>}
-        </form>
-      </div>
+        {errorMsg && <p>{errorMsg}</p>}
+      </form>
     )
   }
 }
