@@ -1,10 +1,9 @@
 import {Component} from 'react'
 import {Link, withRouter} from 'react-router-dom'
 import Cookies from 'js-cookie'
-
+import CartContext from '../context/CartContext'
 import CategoryTabs from './CategoryTabs'
 import DishItem from './DishItem'
-import CartContext from '../context/CartContext'
 
 class Home extends Component {
   state = {
@@ -13,27 +12,24 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    this.getMenuData()
+    this.getData()
   }
 
-  getMenuData = async () => {
-    const response = await fetch(
+  getData = async () => {
+    const res = await fetch(
       'https://apis2.ccbp.in/restaurant-app/restaurant-menu-list-details',
     )
-    const data = await response.json()
-    const categories = data[0].table_menu_list
+    const data = await res.json()
+
+    const list = data[0].table_menu_list
 
     this.setState({
-      menuList: categories,
-      activeCategory: categories[0].menu_category,
+      menuList: list,
+      activeCategory: list[0]?.menu_category,
     })
   }
 
-  changeCategory = category => {
-    this.setState({activeCategory: category})
-  }
-
-  onClickLogout = () => {
+  logout = () => {
     const {history} = this.props
     Cookies.remove('jwt_token')
     history.replace('/login')
@@ -41,47 +37,46 @@ class Home extends Component {
 
   render() {
     const {menuList, activeCategory} = this.state
-    const activeMenu = menuList.find(
-      each => each.menu_category === activeCategory,
-    )
+
+    const activeMenu = menuList.find(i => i.menu_category === activeCategory)
 
     return (
       <CartContext.Consumer>
         {value => {
           const {cartList} = value
 
+          const cartCount = cartList.reduce((acc, i) => acc + i.quantity, 0)
+
           return (
-            <div className="app-container">
-              {/* Header */}
-              <header className="header">
-                <Link to="/" style={{textDecoration: 'none'}}>
-                  <h2>UNI Resto Cafe</h2>
-                </Link>
+            <div>
+              {/* FIXED HEADER TEXT */}
+              <h1>UNI Resto Cafe</h1>
 
-                <div className="header-actions">
-                  <Link to="/cart" className="cart">
-                    🛒 <span>{cartList.length}</span>
-                  </Link>
-                  <button type="button" onClick={this.onClickLogout}>
-                    Logout
-                  </button>
-                </div>
-              </header>
+              <p>My Orders</p>
 
-              {/* Category Tabs */}
+              {/* CART BUTTON */}
+              <Link to="/cart">
+                <button type="button" data-testid="cart">
+                  Cart <span>{cartCount}</span>
+                </button>
+              </Link>
+
+              <button type="button" onClick={this.logout}>
+                Logout
+              </button>
+
+              {/* CATEGORY TABS */}
               <CategoryTabs
                 menuList={menuList}
                 activeCategory={activeCategory}
-                changeCategory={this.changeCategory}
+                changeCategory={cat => this.setState({activeCategory: cat})}
               />
 
-              {/* Dish List */}
-              <div className="dishes-container">
-                {activeMenu &&
-                  activeMenu.category_dishes.map(dish => (
-                    <DishItem key={dish.dish_id} dish={dish} />
-                  ))}
-              </div>
+              {/* DISHES */}
+              {activeMenu &&
+                activeMenu.category_dishes.map(dish => (
+                  <DishItem key={dish.dish_id} dish={dish} />
+                ))}
             </div>
           )
         }}
